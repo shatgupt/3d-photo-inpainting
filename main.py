@@ -32,7 +32,9 @@ os.makedirs(config['depth_folder'], exist_ok=True)
 sample_list = get_MiDaS_samples(config['src_folder'], config['depth_folder'], config, config['specific'])
 normal_canvas, all_canvas = None, None
 
-if isinstance(config["gpu_ids"], int) and (config["gpu_ids"] >= 0):
+if torch.cuda.is_available():
+    device = "cuda:0"
+elif isinstance(config["gpu_ids"], int) and (config["gpu_ids"] >= 0):
     device = config["gpu_ids"]
 else:
     device = "cpu"

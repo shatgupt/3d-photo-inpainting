@@ -22,7 +22,13 @@ def run_depth(img_names, input_path, output_path, model_path, Net, utils, target
     print("initialize")
 
     # select device
-    device = torch.device("cpu")
+#     device = torch.device("cpu")
+    if torch.cuda.is_available():
+        device = torch.device("cuda:0")
+    elif isinstance(config["gpu_ids"], int) and (config["gpu_ids"] >= 0):
+        device = torch.device(config["gpu_ids"])
+    else:
+        device = torch.device("cpu")
     print("device: %s" % device)
 
     # load network
